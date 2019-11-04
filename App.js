@@ -42,7 +42,7 @@ export default class App extends Component {
     } else {
       console.log('checkUser IN Else : ')
       this.setState({ check: false });
-      Actions.Register();
+      Actions.login();
     }
 
   }

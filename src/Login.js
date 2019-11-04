@@ -6,7 +6,9 @@ import { StyleSheet,
 	Text,
 	TextInput,
 	TouchableOpacity,
-	Alert
+	Alert,
+	AsyncStorage,
+	Dimensions
 } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 
@@ -19,9 +21,12 @@ export default class LoginForm extends Component {
 		mobile: '',
 		Password:'',
 	  };
+
 componentDidMount()
 {
+
 }
+
 checkMobile(mobile) {
     this.setState({ mobileNumberStatus: false });
     const regexp = /^[789]\d{9}$/;
@@ -42,13 +47,29 @@ checkMobile(mobile) {
       Alert.alert('Alert', 'Please Enter a Valid Phone Number ');
     }
   }
-  CheckAuth= () => {
-	  if(this.state.mobile == '8080817552' && this.state.Password == '1234'){
-		Actions.dashboard()
-	  }else{
-		Alert.alert('Alert', 'Please Enter a Valid Detail ');
-
+  CheckAuth= async () => {
+  
+	try {
+		const userArray = await AsyncStorage.getItem('User')
+		if(userArray !== null) {
+		  // value previously stored
+		  let user =JSON.parse(userArray)
+		  console.log("userArray",user)
+		  if(this.state.mobile == user.mobile && this.state.Password == user.password){
+			Actions.dashboard()
+		  }else{
+			Alert.alert('Alert', 'Please Enter a Valid Detail ');
+	
+		  }
+		}
+	  } catch(e) {
+		// error reading value
 	  }
+	
+	
+  }
+  registerLink = () =>{
+	  Actions.Register()
   }
 	render() {
 		const { container,textBox,input,errorInput ,label} = styles;
@@ -60,7 +81,13 @@ checkMobile(mobile) {
 			                <View style={{ backgroundColor: '#fff', height: StatusBar.currentHeight }} />
 				<StatusBar backgroundColor={'rgba(146,104,13,0.4)'} translucent />
 				<ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps='always'> 
-				<View style={{justifyContent:"center",marginVertical:50}}>
+				<View style={{		
+					justifyContent: 'center',
+					alignItems:'center',
+					height:Dimensions.get('window').height,
+					width:Dimensions.get('window').width,
+					borderWidth:1,
+					borderColor:'red'}}>
 					<View style={textBox}>
 
 						<Text style={label}>Enter your Mobile Number</Text> 
@@ -81,7 +108,6 @@ checkMobile(mobile) {
 
 					<Text style={label}>Enter Your Password</Text> 
 					<TextInput
-							keyboardType="text"
 							placeholderTextColor="#efefef"
 							spellCheck={false}
 							onSubmitEditing={this.signIn}
@@ -93,9 +119,15 @@ checkMobile(mobile) {
 							style={input}
 						/>
 					</View>
-					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+					
+	
+					<View style={{ justifyContent: 'center', alignItems: 'center',marginVertical:20 }}>
 							<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
-								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Submit</Text>
+								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Login</Text>
+							</TouchableOpacity>
+							<Text>OR</Text>
+							<TouchableOpacity onPress={() => this.registerLink()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Register</Text>
 							</TouchableOpacity>
 						</View>
 				</View>
@@ -110,17 +142,18 @@ checkMobile(mobile) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 30,
-		justifyContent: 'center'
+
 	},
+	
 	textBox:{
-		paddingHorizontal: 2,
+		paddingHorizontal: 50,
 
 	},
 	label: {
 		fontSize: 17, marginVertical: 3, color: '#2c3e50',fontWeight:'500'
 	},
 	input: {
+		width:Dimensions.get('window').width-50,
 		borderWidth: 1, 
 		fontSize: 16, 
 		borderColor: '#cfcfcf', 
@@ -128,6 +161,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 2,
 	},
 	errorInput:{
+		width:Dimensions.get('window').width-50,
 		borderWidth: 1, 
 		fontSize: 16, 
 		borderColor: '#c0392b', 

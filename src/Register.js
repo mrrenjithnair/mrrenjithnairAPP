@@ -34,15 +34,29 @@ checkMobile(mobile) {
     }
     this.setState({ mobile });
   }
+
+
+  checkEmail(email) {
+    this.setState({ emailStatus: false });
+    const regexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (regexp.test(email) === true) {
+      this.setState({ emailStatus: true });
+    } else {
+      this.setState({ emailStatus: false });
+    }
+    this.setState({ email });
+  }
+
   checkPassword(Password) {
     this.setState({ Password });
   }
   submit = () => {
-    if (this.state.mobileNumberStatus === true) {
+    if (this.state.mobileNumberStatus === true && this.state.emailStatus === true) {
         
       this.createUser();
     } else {
-      Alert.alert('Alert', 'Please Enter a Valid Phone Number ');
+      Alert.alert('Alert', 'Please Enter a Valid Phone Number and email');
     }
   }
   createUser= () => {
@@ -55,19 +69,17 @@ checkMobile(mobile) {
         password : this.state.password,
     }
     console.log("userndata" ,userBody)
-    if(creatingUser){
 
-        const userArray =  AsyncStorage.getItem('users');
-    }
-    console.log("userndata" ,userArray)
  
-    AsyncStorage.setItem('User', JSON.stringify(userBody));
-
+    if(this.state.creatingUser === true){
+        AsyncStorage.setItem('User', JSON.stringify(userBody));
+        Actions.login();
+    }
   }
 	render() {
 		const { container,textBox,input,errorInput ,label} = styles;
 		
-		const { mobileNumberStatus } = this.state
+		const { mobileNumberStatus,emailStatus } = this.state
 
 		return (
 			<View style={container}>
@@ -98,7 +110,6 @@ checkMobile(mobile) {
 								keyboardType="numeric"
 								placeholderTextColor="#efefef"
 								spellCheck={false}
-								onSubmitEditing={this.signIn}
 								autoCorrect={false}
 								selectionColor={'#2c3e50'}
 								value={this.state.mobile}
@@ -116,8 +127,9 @@ checkMobile(mobile) {
                                 autoCorrect={false}
                                 selectionColor={'#2c3e50'}
                                 value={this.state.email}
-                                onChangeText={(email) => this.setState({ email })}
-                                style={input}
+                                onChangeText={(email) => this.checkEmail(email)}
+								style={emailStatus ? input: errorInput}
+
                             />
                         </View>                
 
@@ -147,6 +159,8 @@ checkMobile(mobile) {
                                 value={this.state.password}
                                 onChangeText={(password) => this.setState({ password })}
                                 style={input}
+								onSubmitEditing={this.submit}
+
                             />
                         </View>
 
