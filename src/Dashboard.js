@@ -47,10 +47,7 @@ export default class Dashboard extends Component {
       signOut = async () => {
         try {
           ToastAndroid.showWithGravityAndOffset('please wait, logging you out !', ToastAndroid.SHORT, ToastAndroid.BOTTOM, 0, 30);
-          // await GoogleSignin.revokeAccess();
-          // await GoogleSignin.signOut();
           try {
-            // this.setState({ user: null }); // Remember to remove the user from your app's state as well
           } catch (error) {
             console.error(error);
           }
@@ -79,14 +76,13 @@ export default class Dashboard extends Component {
 					alignItems:'center',
 					height:Dimensions.get('window').height,
 					width:Dimensions.get('window').width,
-					borderWidth:1,
-					borderColor:'red'}}>
+				}}>
                     <View style={{justifyContent:'center',alignContent:'center'}}>
                         <Text style={{fontSize:22,textAlign:'center'}}> Hello {this.state.user.name || 'user'}</Text>
                         <Text style={{fontSize:18,textAlign:'center'}}> Your Mobile Number is {this.state.user.mobile || 'No mobile'} and Email Id is {this.state.user.email || 'No email'}</Text>
                         </View>
                         <View style={{ flexDirection:'row',marginVertical:20 }}>
-							<TouchableOpacity onPress={() => this.editPage()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+							<TouchableOpacity onPress={() => this.editPage()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#8e44ad', borderColor: '#dcdcdc' }}>
 								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Edit</Text>
 							</TouchableOpacity>
 							<TouchableOpacity onPress={() => this.signOut()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#c0392b', borderColor: '#dcdcdc' }}>
@@ -102,6 +98,7 @@ export default class Dashboard extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor:'#ecf0f1'
 
 	},
 

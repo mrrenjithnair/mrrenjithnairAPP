@@ -213,10 +213,10 @@ checkMobile(mobile) {
 				
 					<View style={{ justifyContent: 'center', alignItems: 'center' ,marginVertical:20}}>
                     {editing ?	
-                        <TouchableOpacity onPress={() => this.editSubmit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+                        <TouchableOpacity onPress={() => this.editSubmit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#8e44ad', borderColor: '#dcdcdc' }}>
                         <Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Submit</Text>
                     </TouchableOpacity>
-                    :	<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+                    :	<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#8e44ad', borderColor: '#dcdcdc' }}>
 								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Register</Text>
 							</TouchableOpacity>}
 						</View>
@@ -233,7 +233,9 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingHorizontal: 30,
-		justifyContent: 'center'
+        justifyContent: 'center',
+		backgroundColor:'#ecf0f1'
+        
 	},
 	textBox:{
 		paddingHorizontal: 2,

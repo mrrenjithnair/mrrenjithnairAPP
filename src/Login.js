@@ -90,8 +90,7 @@ checkMobile(mobile) {
 					alignItems:'center',
 					height:Dimensions.get('window').height,
 					width:Dimensions.get('window').width,
-					borderWidth:1,
-					borderColor:'red'}}>
+					}}>
 					<View style={textBox}>
 
 						<Text style={label}>Enter your Mobile Number</Text> 
@@ -126,11 +125,11 @@ checkMobile(mobile) {
 					
 	
 					<View style={{ justifyContent: 'center', alignItems: 'center',marginVertical:20 }}>
-							<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+							<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#8e44ad', borderColor: '#dcdcdc' }}>
 								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Login</Text>
 							</TouchableOpacity>
 							<Text>OR</Text>
-							<TouchableOpacity onPress={() => this.registerLink()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+							<TouchableOpacity onPress={() => this.registerLink()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#8e44ad', borderColor: '#dcdcdc' }}>
 								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Register</Text>
 							</TouchableOpacity>
 						</View>
@@ -146,6 +145,7 @@ checkMobile(mobile) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor:'#ecf0f1'
 
 	},
 	
