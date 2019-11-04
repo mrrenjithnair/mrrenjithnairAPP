@@ -27,6 +27,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { Actions } from 'react-native-router-flux';
 import Router from './src/Router';
+import SplashScreen from 'react-native-splash-screen'
+
 
 export default class App extends Component {
 
@@ -47,8 +49,10 @@ export default class App extends Component {
 
   }
   async componentDidMount() {
-
+    SplashScreen.show();
     await  this.checkUser();  
+    SplashScreen.hide();
+
   }
   render() {
     return (
