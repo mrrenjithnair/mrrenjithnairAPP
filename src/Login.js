@@ -48,7 +48,7 @@ checkMobile(mobile) {
 
 
   submit = () => {
-    if (this.state.mobileNumberError === true) {
+    if (this.state.mobileNumberError === false) {
       this.CheckAuth();
 
 	} else{
@@ -65,6 +65,7 @@ checkMobile(mobile) {
   
 	try {
 		const userArray = await AsyncStorage.getItem('User')
+		console.log(userArray)
 		if(userArray !== null) {
 		  // value previously stored
 		  let user =JSON.parse(userArray)
@@ -73,14 +74,21 @@ checkMobile(mobile) {
 			
 			AsyncStorage.setItem('Name', user.name);
 			Actions.dashboard()
-		  }else{
+		  }else if(user.mobile == null || user.password == null){
+				Alert.alert('Alert', 'Please Register First ');
+
+			}
+			else{
+				console.log("userArray",user)
 			Alert.alert('Alert', 'Please Enter a Valid Detail ');
 	
 		  }
+		}else{
+			Alert.alert('Alert', 'Kindly Register First ');
+
 		}
 	  } catch(e) {
 		// error reading value
-		Alert.alert('Alert', 'Kindly Register First ');
 
 	  }
 	

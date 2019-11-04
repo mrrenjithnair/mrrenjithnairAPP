@@ -2,11 +2,8 @@ import React, { Component } from 'react'
 import { StyleSheet,
 	 View,
 	 StatusBar,
-	ScrollView ,
 	Text,
-	TextInput,
 	TouchableOpacity,
-    Alert,
     Dimensions,
     AsyncStorage,
     ToastAndroid

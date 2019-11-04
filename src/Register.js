@@ -80,7 +80,7 @@ checkMobile(mobile) {
   submit = async () => {
      await this.checkEmail(this.state.email);
      await this.checkMobile(this.state.mobile);
-    if (this.state.mobileNumberError === true && this.state.emailError === true) {
+    if (this.state.mobileNumberError === false && this.state.emailError === false) {
         
       this.createUser();
     } else {
