@@ -17,13 +17,35 @@ import { Actions } from 'react-native-router-flux';
 export default class Register extends Component {
 
 	state = {
-		mobile: '',
-        Password:'',
-        creatingUser:false
-	  };
+        mobile:'',
+        name:'',
+        email:'',
+        password:'',
+        username:'',
+        creatingUser:false,
+        editing:false
+      };
+      
 componentDidMount()
 {
+    if(this.props.user){
+        this.getuserEdit(this.props.user);
+        this.setState({editing:true})
+        }
 }
+
+getuserEdit(user){
+
+this.setState({
+    mobile:user.mobile,
+    name:user.name,
+    email:user.email,
+    password:user.password,
+    username:user.username,
+
+})
+}
+
 checkMobile(mobile) {
     this.setState({ mobileNumberStatus: false });
     const regexp = /^[789]\d{9}$/;
@@ -51,7 +73,9 @@ checkMobile(mobile) {
   checkPassword(Password) {
     this.setState({ Password });
   }
-  submit = () => {
+  submit = async () => {
+     await this.checkEmail(this.state.email);
+     await this.checkMobile(this.state.mobile);
     if (this.state.mobileNumberStatus === true && this.state.emailStatus === true) {
         
       this.createUser();
@@ -73,13 +97,33 @@ checkMobile(mobile) {
  
     if(this.state.creatingUser === true){
         AsyncStorage.setItem('User', JSON.stringify(userBody));
+      Alert.alert('Alert', 'User Created');
+
         Actions.login();
     }
   }
+  editSubmit= () => {
+    this.setState({creatingUser:true})
+  const userBody ={
+      name : this.state.name,
+      mobile : this.state.mobile,
+      email : this.state.email,
+      username : this.state.username,
+      password : this.state.password,
+  }
+  console.log("userndata" ,userBody)
+
+
+  if(this.state.creatingUser === true){
+      AsyncStorage.setItem('User', JSON.stringify(userBody));
+      Alert.alert('Alert', 'User Updated');
+      Actions.dashboard();
+  }
+}
 	render() {
 		const { container,textBox,input,errorInput ,label} = styles;
 		
-		const { mobileNumberStatus,emailStatus } = this.state
+		const { mobileNumberStatus,emailStatus ,editing} = this.state
 
 		return (
 			<View style={container}>
@@ -93,8 +137,8 @@ checkMobile(mobile) {
                     <Text style={label}>Enter Your Name</Text> 
                     <TextInput
                             placeholderTextColor="#efefef"
-                            spellCheck={false}
-                            autoCorrect={false}
+                            spellCheck={true}
+                            autoCorrect={true}
                             selectionColor={'#2c3e50'}
                             value={this.state.name}
                             onChangeText={(name) => this.setState({ name })}
@@ -109,8 +153,8 @@ checkMobile(mobile) {
 						<TextInput
 								keyboardType="numeric"
 								placeholderTextColor="#efefef"
-								spellCheck={false}
-								autoCorrect={false}
+								spellCheck={true}
+								autoCorrect={true}
 								selectionColor={'#2c3e50'}
 								value={this.state.mobile}
 								onChangeText={mobile => this.checkMobile(mobile)}
@@ -123,8 +167,8 @@ checkMobile(mobile) {
                         <Text style={label}>Enter Your email</Text> 
                         <TextInput
                                 placeholderTextColor="#efefef"
-                                spellCheck={false}
-                                autoCorrect={false}
+                                spellCheck={true}
+                                autoCorrect={true}
                                 selectionColor={'#2c3e50'}
                                 value={this.state.email}
                                 onChangeText={(email) => this.checkEmail(email)}
@@ -138,8 +182,8 @@ checkMobile(mobile) {
                         <Text style={label}>Enter Your username</Text> 
                         <TextInput
                                 placeholderTextColor="#efefef"
-                                spellCheck={false}
-                                autoCorrect={false}
+                                spellCheck={true}
+                                autoCorrect={true}
                                 selectionColor={'#2c3e50'}
                                 value={this.state.username}
                                 onChangeText={(username) => this.setState({ username })}
@@ -153,8 +197,8 @@ checkMobile(mobile) {
                         <Text style={label}>Enter Your password</Text> 
                         <TextInput
                                 placeholderTextColor="#efefef"
-                                spellCheck={false}
-                                autoCorrect={false}
+                                spellCheck={true}
+                                autoCorrect={true}
                                 selectionColor={'#2c3e50'}
                                 value={this.state.password}
                                 onChangeText={(password) => this.setState({ password })}
@@ -168,9 +212,13 @@ checkMobile(mobile) {
 
 				
 					<View style={{ justifyContent: 'center', alignItems: 'center' ,marginVertical:20}}>
-							<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
-								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Submit</Text>
-							</TouchableOpacity>
+                    {editing ?	
+                        <TouchableOpacity onPress={() => this.editSubmit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+                        <Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Submit</Text>
+                    </TouchableOpacity>
+                    :	<TouchableOpacity onPress={() => this.submit()} activeOpacity={0.5} style={{ height: 50, width: 150, borderRadius: 5, justifyContent: 'center', borderWidth: 2,backgroundColor:'#673ab7', borderColor: '#dcdcdc' }}>
+								<Text style={{ textAlign: 'center', textTransform: 'uppercase', letterSpacing: 1.5 ,color:'#fff',}}>Register</Text>
+							</TouchableOpacity>}
 						</View>
 				</View>
 

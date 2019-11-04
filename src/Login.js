@@ -56,6 +56,8 @@ checkMobile(mobile) {
 		  let user =JSON.parse(userArray)
 		  console.log("userArray",user)
 		  if(this.state.mobile == user.mobile && this.state.Password == user.password){
+			
+			AsyncStorage.setItem('Name', user.name);
 			Actions.dashboard()
 		  }else{
 			Alert.alert('Alert', 'Please Enter a Valid Detail ');
@@ -64,6 +66,8 @@ checkMobile(mobile) {
 		}
 	  } catch(e) {
 		// error reading value
+		Alert.alert('Alert', 'Kindly Register First ');
+
 	  }
 	
 	

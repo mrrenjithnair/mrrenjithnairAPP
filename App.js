@@ -33,12 +33,12 @@ export default class App extends Component {
 
   async checkUser() {
     
-    this.token = await AsyncStorage.getItem('token');
-  
-    if (this.token !== undefined && this.token !== null) {
+    this.Name = await AsyncStorage.getItem('Name');
+  console.log(this.Name)
+    if (this.Name !== undefined && this.Name !== null) {
       console.log('checkUser IN IF : ');
       this.setState({ check: true });
-      Actions.login();
+      Actions.dashboard();
     } else {
       console.log('checkUser IN Else : ')
       this.setState({ check: false });
