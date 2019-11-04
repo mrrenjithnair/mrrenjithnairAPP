@@ -20,6 +20,7 @@ export default class LoginForm extends Component {
 	state = {
 		mobile: '',
 		Password:'',
+
 	  };
 
 componentDidMount()
@@ -28,25 +29,38 @@ componentDidMount()
 }
 
 checkMobile(mobile) {
-    this.setState({ mobileNumberStatus: false });
+    this.setState({ mobileNumberError: true });
     const regexp = /^[789]\d{9}$/;
     if (regexp.test(mobile) === true) {
-      this.setState({ mobileNumberStatus: true });
+      this.setState({ mobileNumberError: false });
     } else {
-      this.setState({ mobileNumberStatus: false });
+      this.setState({ mobileNumberError: true });
     }
     this.setState({ mobile });
   }
   checkPassword(Password) {
     this.setState({ Password });
   }
+
+
+
+
+
+
   submit = () => {
-    if (this.state.mobileNumberStatus === true) {
+    if (this.state.mobileNumberError === true) {
       this.CheckAuth();
-    } else {
+
+	} else{
       Alert.alert('Alert', 'Please Enter a Valid Phone Number ');
     }
   }
+
+
+
+
+
+
   CheckAuth= async () => {
   
 	try {
@@ -78,7 +92,7 @@ checkMobile(mobile) {
 	render() {
 		const { container,textBox,input,errorInput ,label} = styles;
 		
-		const { mobileNumberStatus } = this.state
+		const { mobileNumberError } = this.state
 
 		return (
 			<View style={container}>
@@ -98,13 +112,12 @@ checkMobile(mobile) {
 								keyboardType="numeric"
 								placeholderTextColor="#efefef"
 								spellCheck={false}
-								onSubmitEditing={this.signIn}
 								autoCorrect={false}
 								selectionColor={'#2c3e50'}
 								value={this.state.mobile}
 								onChangeText={mobile => this.checkMobile(mobile)}
 								maxLength={10}
-								style={mobileNumberStatus ? input: errorInput}
+								style={mobileNumberError ? errorInput : input}
 							/>
 					  </View>
 					<View style={textBox}>
@@ -113,13 +126,13 @@ checkMobile(mobile) {
 					<TextInput
 							placeholderTextColor="#efefef"
 							spellCheck={false}
-							onSubmitEditing={this.signIn}
 							autoCorrect={false}
 							selectionColor={'#2c3e50'}
 							value={this.state.Password}
 							onChangeText={Password => this.checkPassword(Password)}
 							maxLength={10}
 							style={input}
+							secureTextEntry={true} 
 						/>
 					</View>
 					

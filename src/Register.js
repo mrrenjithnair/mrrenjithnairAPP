@@ -47,25 +47,29 @@ this.setState({
 }
 
 checkMobile(mobile) {
-    this.setState({ mobileNumberStatus: false });
+    this.setState({ mobileNumberError: true });
     const regexp = /^[789]\d{9}$/;
     if (regexp.test(mobile) === true) {
-      this.setState({ mobileNumberStatus: true });
+      this.setState({ mobileNumberError: false });
     } else {
-      this.setState({ mobileNumberStatus: false });
+      this.setState({ mobileNumberError: true });
     }
     this.setState({ mobile });
   }
+  checkPassword(Password) {
+    this.setState({ Password });
+  }
+
 
 
   checkEmail(email) {
-    this.setState({ emailStatus: false });
+    this.setState({ emailError: true });
     const regexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (regexp.test(email) === true) {
-      this.setState({ emailStatus: true });
+      this.setState({ emailError: false });
     } else {
-      this.setState({ emailStatus: false });
+      this.setState({ emailError: true });
     }
     this.setState({ email });
   }
@@ -76,11 +80,11 @@ checkMobile(mobile) {
   submit = async () => {
      await this.checkEmail(this.state.email);
      await this.checkMobile(this.state.mobile);
-    if (this.state.mobileNumberStatus === true && this.state.emailStatus === true) {
+    if (this.state.mobileNumberError === true && this.state.emailError === true) {
         
       this.createUser();
     } else {
-      Alert.alert('Alert', 'Please Enter a Valid Phone Number and email');
+      Alert.alert('Alert', 'You are Entering a inValid Phone Number or email');
     }
   }
   createUser= () => {
@@ -123,7 +127,7 @@ checkMobile(mobile) {
 	render() {
 		const { container,textBox,input,errorInput ,label} = styles;
 		
-		const { mobileNumberStatus,emailStatus ,editing} = this.state
+		const { mobileNumberError,emailError ,editing} = this.state
 
 		return (
 			<View style={container}>
@@ -159,7 +163,8 @@ checkMobile(mobile) {
 								value={this.state.mobile}
 								onChangeText={mobile => this.checkMobile(mobile)}
 								maxLength={10}
-								style={mobileNumberStatus ? input: errorInput}
+								style={mobileNumberError ? errorInput : input}
+							
 							/>
 					  </View>
                       <View style={textBox}>
@@ -172,7 +177,7 @@ checkMobile(mobile) {
                                 selectionColor={'#2c3e50'}
                                 value={this.state.email}
                                 onChangeText={(email) => this.checkEmail(email)}
-								style={emailStatus ? input: errorInput}
+								style={emailError ? errorInput : input}
 
                             />
                         </View>                
@@ -204,6 +209,7 @@ checkMobile(mobile) {
                                 onChangeText={(password) => this.setState({ password })}
                                 style={input}
 								onSubmitEditing={this.submit}
+                                secureTextEntry={true} 
 
                             />
                         </View>

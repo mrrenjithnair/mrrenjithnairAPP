@@ -8,6 +8,9 @@
     "start": "react-native start",
     "test": "jest",
     "android:uninstall": "adb uninstall com.mrrenjithnair",
+    "android:release": "react-native run-android --variant=release",
+    "android:release-build": "cd android && ./gradlew assembleRelease",
+    "watchman": "watchman watch-del-all && react-native start --reset-cache",
     "lint": "eslint ."
   },
   "dependencies": {
